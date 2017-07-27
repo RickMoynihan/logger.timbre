@@ -85,16 +85,12 @@
            (slurp tempfile))))))
 
 (deftest restore-root-timbre-config-test
-  (testing "manages taoensso.timbre/*config* binding"
-    (let [init-binding tao/*config*
-          config {::logger/timbre {:level :info, :appenders {}}}] 
-     (try
-        (let [system (ig/init config)]
-          (is (= (::logger/timbre config) tao/*config*)
-              "root timbre config is set")
-          (ig/halt! system)
-          (is (= init-binding tao/*config*)
-              "root timbre config is restored"))
-        (finally
-          ;; ensure root binding restored
-          (tao/set-config! init-binding))))))
+  (let [init-binding tao/*config*
+        config {::logger/timbre {:level :info, :appenders {}}}] 
+    (try
+      (let [system (ig/init config)]
+        (is (= (::logger/timbre config) tao/*config*))
+        (ig/halt! system)
+        (is (= init-binding tao/*config*)))
+      (finally
+        (tao/set-config! init-binding)))))
