@@ -41,7 +41,7 @@
 (defmethod ig/init-key :duct.logger/timbre [_ config]
   (let [timbre-logger (->TimbreLogger config)
         prev-root timbre/*config*]
-    (if (::set-root-binding? config true)
+    (if (:set-root-binding? config true)
       (do (timbre/set-config! config)
           (assoc timbre-logger ::prev-root-config prev-root))
       timbre-logger)))
